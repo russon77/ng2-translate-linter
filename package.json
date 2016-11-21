@@ -1,0 +1,19 @@
+{
+  "name": "ng2-translate-linter",
+  "version": "1.0.0",
+  "description": "Given a large enough translation dictionary and a large enough project, testing for translation correctness (in this case, testing if every key used in the project is present in the translation dictionary) is difficult if not impossible  manually. Thus this script was born. The script runs as several Python unittest test cases in order to benefit from  the reporting and assertions already in place.",
+  "main": "main.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/russon77/ng2-translate-linter.git"
+  },
+  "author": "Tristan Kernan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/russon77/ng2-translate-linter/issues"
+  },
+  "homepage": "https://github.com/russon77/ng2-translate-linter#readme"
+}
