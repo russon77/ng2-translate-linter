@@ -26,9 +26,9 @@ import sys
 
 # to override, i.e. to iterate over separate translation dictionaries, please use <argv[1]>
 # DICTIONARY_LOCATION = 'smart-response/i18n/en.json'
-DICTIONARY_LOCATION = '/home/tristan/prog/SR-March2016/SmartWeb/smart-response/i18n/en.json'
+DICTIONARY_LOCATION = 'SmartWeb/smart-response/i18n/en.json'
 # directory to search for .html and .ts files
-SOURCE_DIRECTORY = '/home/tristan/prog/SR-March2016/SmartWeb/src'
+SOURCE_DIRECTORY = 'SmartWeb/src'
 
 
 class TranslationDictionaryTests(unittest.TestCase):
