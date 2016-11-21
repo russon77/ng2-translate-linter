@@ -145,10 +145,11 @@ class MissingAndExtraKeysTest(unittest.TestCase):
         self.assertEqual(len(keys_missing_from_dictionary), 0, 'Discovered keys in use missing from dictionary.')
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        DICTIONARY_LOCATION = sys.argv[1]
 
-        if len(sys.argv) > 2:
-            SOURCE_DIRECTORY = sys.argv[2]
+    if len(sys.argv) > 1:
+        DICTIONARY_LOCATION = sys.argv.pop(1)
+
+        if len(sys.argv) > 1:
+            SOURCE_DIRECTORY = sys.argv.pop(1)
 
     unittest.main()

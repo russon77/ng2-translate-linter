@@ -13,11 +13,19 @@ The key tests work by removing from each `.html` and `.ts` file all spaces and a
 usages. The results are combined into a set (for uniqueness) and use set operations (`set.difference(*others)`) 
 to find instances where the key is missing.
 
-### Note
+### Notes
 - Test ignores spaces in keys *in `.html` and `.ts` files*
     - i.e. `{"MY KEY": "MY TRANSLATION"}` and `{{ 'MY KEY' | translate }}` will fail.
 - Test does not support finding arbitrary key usage in plain strings in `.ts` files.
     - i.e. `const x = 'MY_KEY'; translate.instant(x);` is *not* supported.
+- Does not support dictionaries with nested keys. Specifically tests *against* this.
+- Developed against the Angular 2 rc4 version of `ng2-translate` library.
+    
+### Requirements
+- Python >3.5 due to use of `recursive` flag with `iglob()` 
+    
+### Usage
+- `python3 main.py <path/to/dictionary.json> <path/to/source/files/>`
     
 ### License
 Copyright (c) <2016> Tristan Kernan
