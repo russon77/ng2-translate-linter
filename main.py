@@ -23,8 +23,7 @@ import glob
 import os
 import re
 import sys
-
-from tabulate import tabulate
+import pprint
 
 # to override, i.e. to iterate over separate translation dictionaries, please use <argv[1]>
 # DICTIONARY_LOCATION = 'smart-response/i18n/en.json'
@@ -105,10 +104,10 @@ class MissingAndExtraKeysTest(unittest.TestCase):
         keys_in_use = set()
         keys_to_file = {}
 
-        html_regex = r"\s*['\"][-_\w]+['\"]\s*\|\s*translate\s*"
+        html_regex = r"\s*['\"][\+-_\w]+['\"]\s*\|\s*translate\s*"
         html_prog = re.compile(html_regex)
 
-        ts_regex = r"\.instant\(['\"][-_\w]+['\"]"
+        ts_regex = r"\.instant\(['\"][\+-_\w]+['\"]"
         ts_prog = re.compile(ts_regex)
 
         for ts_filename in glob.iglob(os.path.join(SOURCE_DIRECTORY, '**', '*.ts'), recursive=True):
@@ -137,17 +136,18 @@ class MissingAndExtraKeysTest(unittest.TestCase):
                     keys_in_use.add(key)
                     keys_to_file.setdefault(key, set()).add(html_filename)
 
+        # filter translation dictionary's keys for comments (start with '-') and zero-length strings
         keys_in_dictionary = set(_ for _ in self.dictionary.keys() if len(_) and not _.startswith('-'))
 
         keys_never_used_from_dictionary = keys_in_dictionary.difference(keys_in_use)
         if len(keys_never_used_from_dictionary):
-            print('*** Keys never used from dictionary ***', *keys_never_used_from_dictionary, sep='\n')
+            print('*** Keys never used from dictionary (Consider removing?) ***')
+            pprint.pprint(keys_never_used_from_dictionary)
 
         keys_missing_from_dictionary = keys_in_use.difference(keys_in_dictionary)
         if len(keys_missing_from_dictionary):
-            print('*** Keys missing from dictionary ***',
-                  tabulate([(_, keys_to_file[_]) for _ in keys_missing_from_dictionary], headers=('key', 'files')),
-                  sep='\n')
+            print('*** Keys missing from dictionary ***')
+            pprint.pprint({_: keys_to_file[_] for _ in keys_missing_from_dictionary})
 
         self.assertEqual(len(keys_missing_from_dictionary), 0, 'Discovered keys in use missing from dictionary.')
 

@@ -14,6 +14,7 @@ usages. The results are combined into a set (for uniqueness) and use set operati
 to find instances where the key is missing.
 
 ### Notes
+- Test ignores keys in translation dictionary starting with '-' and empty strings.
 - Test ignores spaces in keys *in `.html` and `.ts` files*
     - i.e. `{"MY KEY": "MY TRANSLATION"}` and `{{ 'MY KEY' | translate }}` will fail.
 - Test does not support finding arbitrary key usage in plain strings in `.ts` files.

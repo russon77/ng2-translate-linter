@@ -1,15 +1,10 @@
-*
-!COPYING
-!LICENSE
-!main.py
-!package.json
-!pyvenv.cfg
-!README.md
-!requirements.txt
 
-!lib
-!lib/python3.5
-!lib/python3.5/site-packages/
-!lib/python3.5/site-packages/tabulate.py
-!lib/python3.5/site-packages/tabulate-0.7.7.dist-info/
-!lib/python3.5/site-packages/tabulate-0.7.7.dist-info/*
+.idea/
+__pycache__/
+bin/
+include/
+lib/
+lib64/
+lib64
+pip-selfcheck.json
+share/
