@@ -28,9 +28,9 @@ from tabulate import tabulate
 
 # to override, i.e. to iterate over separate translation dictionaries, please use <argv[1]>
 # DICTIONARY_LOCATION = 'smart-response/i18n/en.json'
-DICTIONARY_LOCATION = 'SmartWeb/smart-response/i18n/en.json'
+DICTIONARY_LOCATION = '/i18n/en.json'
 # directory to search for .html and .ts files
-SOURCE_DIRECTORY = 'SmartWeb/src'
+SOURCE_DIRECTORY = '/src'
 
 
 class TranslationDictionaryTests(unittest.TestCase):
