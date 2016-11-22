@@ -24,6 +24,8 @@ import os
 import re
 import sys
 
+from tabulate import tabulate
+
 # to override, i.e. to iterate over separate translation dictionaries, please use <argv[1]>
 # DICTIONARY_LOCATION = 'smart-response/i18n/en.json'
 DICTIONARY_LOCATION = 'SmartWeb/smart-response/i18n/en.json'
@@ -101,6 +103,7 @@ class MissingAndExtraKeysTest(unittest.TestCase):
         :return:
         """
         keys_in_use = set()
+        keys_to_file = {}
 
         html_regex = r"\s*['\"][-_\w]+['\"]\s*\|\s*translate\s*"
         html_prog = re.compile(html_regex)
@@ -119,6 +122,7 @@ class MissingAndExtraKeysTest(unittest.TestCase):
                     key = split[1].replace('\'', '').replace('\"', '')
 
                     keys_in_use.add(key)
+                    keys_to_file.setdefault(key, set()).add(ts_filename)
 
         for html_filename in glob.iglob(os.path.join(SOURCE_DIRECTORY, '**', '*.html'), recursive=True):
             with open(html_filename, 'r') as html_file:
@@ -131,16 +135,19 @@ class MissingAndExtraKeysTest(unittest.TestCase):
                     key = split[0].replace('\'', '').replace('\"', '')
                     
                     keys_in_use.add(key)
+                    keys_to_file.setdefault(key, set()).add(html_filename)
 
         keys_in_dictionary = set(_ for _ in self.dictionary.keys() if len(_) and not _.startswith('-'))
 
         keys_never_used_from_dictionary = keys_in_dictionary.difference(keys_in_use)
         if len(keys_never_used_from_dictionary):
-            print('Keys never used from dictionary', keys_never_used_from_dictionary)
+            print('*** Keys never used from dictionary ***', *keys_never_used_from_dictionary, sep='\n')
 
         keys_missing_from_dictionary = keys_in_use.difference(keys_in_dictionary)
         if len(keys_missing_from_dictionary):
-            print('Keys missing from dictionary', keys_missing_from_dictionary)
+            print('*** Keys missing from dictionary ***',
+                  tabulate([(_, keys_to_file[_]) for _ in keys_missing_from_dictionary], headers=('key', 'files')),
+                  sep='\n')
 
         self.assertEqual(len(keys_missing_from_dictionary), 0, 'Discovered keys in use missing from dictionary.')
 
