@@ -132,7 +132,7 @@ class MissingAndExtraKeysTest(unittest.TestCase):
                     
                     keys_in_use.add(key)
 
-        keys_in_dictionary = set(_ for _ in self.dictionary.keys() if not _.startswith('-'))
+        keys_in_dictionary = set(_ for _ in self.dictionary.keys() if len(_) and not _.startswith('-'))
 
         keys_never_used_from_dictionary = keys_in_dictionary.difference(keys_in_use)
         if len(keys_never_used_from_dictionary):
