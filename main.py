@@ -140,6 +140,33 @@ class MissingAndExtraKeysTest(unittest.TestCase):
         keys_in_dictionary = set(_ for _ in self.dictionary.keys() if len(_) and not _.startswith('-'))
 
         keys_never_used_from_dictionary = keys_in_dictionary.difference(keys_in_use)
+
+        # check for key presence in any file (.ts or .html) in the target directory
+        # this is enough to remove from the "never used" list
+        keys_actually_used_from_dictionary = set()
+
+        for ts_filename in glob.iglob(os.path.join(SOURCE_DIRECTORY, '**', '*.ts'), recursive=True):
+            with open(ts_filename, 'r') as ts_file:
+                ts_file_contents = ts_file.read()
+                ts_file_contents_no_whitespace = ''.join(ts_file_contents.split())
+
+                for key_never_used in keys_never_used_from_dictionary:
+                    if key_never_used in ts_file_contents_no_whitespace:
+                        keys_actually_used_from_dictionary.add(key_never_used)
+
+        for html_filename in glob.iglob(os.path.join(SOURCE_DIRECTORY, '**', '*.html'), recursive=True):
+            with open(html_filename, 'r') as html_file:
+                html_file_contents = html_file.read()
+                html_file_contents_no_whitespace = ''.join(html_file_contents.split())
+
+                for key_never_used in keys_never_used_from_dictionary:
+                    if key_never_used in html_file_contents_no_whitespace:
+                        keys_actually_used_from_dictionary.add(key_never_used)
+
+        for discovered_key in keys_actually_used_from_dictionary:
+            keys_never_used_from_dictionary.remove(discovered_key)
+
+        # reporting
         if len(keys_never_used_from_dictionary):
             print('*** Keys never used from dictionary (Consider removing?) ***')
             pprint.pprint(keys_never_used_from_dictionary)

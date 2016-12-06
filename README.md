@@ -19,6 +19,8 @@ to find instances where the key is missing.
     - i.e. `{"MY KEY": "MY TRANSLATION"}` and `{{ 'MY KEY' | translate }}` will fail.
 - Test does not support finding arbitrary key usage in plain strings in `.ts` files.
     - i.e. `const x = 'MY_KEY'; translate.instant(x);` is *not* supported.
+    - **UPDATE 2016-12-06** keys not found in actual usage are checked for mere presence in the source directory. This 
+    finds programmatic used keys in addition to keys in comments, etc.
 - Does not support dictionaries with nested keys. Specifically tests *against* this.
 - Developed against the Angular 2 rc4 version of `ng2-translate` library.
     
